@@ -1,8 +1,6 @@
 import {
   Component,
-  OnInit,
-  Output,
-  EventEmitter } from '@angular/core';
+  OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -10,15 +8,10 @@ import {
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  @Output() featureSelected = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  // tslint:disable-next-line:typedef
-  onSelect(feature: string){
-    this.featureSelected.emit(feature);
-  }
 }
