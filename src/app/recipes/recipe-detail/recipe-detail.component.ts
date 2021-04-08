@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-
 import {Recipe} from '../recipe.model';
 import {RecipeService} from '../recipe.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -12,6 +11,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 export class RecipeDetailComponent implements OnInit {
   recipe: Recipe;
   id: number;
+  // @ts-ignore
   constructor(private recipeService: RecipeService,
               private route: ActivatedRoute,
               private router: Router) { }
