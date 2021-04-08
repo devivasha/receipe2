@@ -1,4 +1,5 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import { Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 import {Recipe} from './recipe.model';
 import {Ingredients} from '../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list/shopping-list.service';
@@ -7,7 +8,7 @@ import {ShoppingListService} from '../shopping-list/shopping-list.service';
   providedIn: 'root'
 })
 export class RecipeService {
-  recipeSelected = new EventEmitter<Recipe>();
+  recipesChanged = new Subject<Recipe[]>();
   private recipes: Recipe[] = [
     new Recipe('One',
       'New text here',
@@ -30,11 +31,27 @@ export class RecipeService {
     return this.recipes.slice();
   }
   // tslint:disable-next-line:typedef
+  getRecipe(index: number){
+    return this.recipes[index];
+  }
+  // tslint:disable-next-line:typedef
   addIngredientsToShoppingList(ingredients: Ingredients[]){
     this.slService.addIngredients2(ingredients);
   }
   // tslint:disable-next-line:typedef
-  getRecipe(index: number){
-    return this.recipes.slice()[index];
+  addRecipe(recipe: Recipe){
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+
+  }
+  // tslint:disable-next-line:typedef
+  updateRecipe(index: number, newRecipe: Recipe){
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+  // tslint:disable-next-line:typedef
+  deleteRecipe(index: number){
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
   }
 }
