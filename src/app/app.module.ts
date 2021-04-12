@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
 
 import { AuthComponent } from '../app/auth/auth.component';
 import { AppComponent } from './app.component';
@@ -13,7 +14,6 @@ import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-it
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 import { DropdownDirective } from './shared/dropdown.directive';
-import {ShoppingListService} from './shopping-list/shopping-list.service';
 import {AppRoutingModule} from './app-routing.module';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
@@ -23,6 +23,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { AlertComponent } from './shared/alert/alert.component';
 import { PlaceholderDirective } from './shared/placeholder/placeholder.component';
 import { AuthGuard } from './auth/auth-guard';
+import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,16 +41,18 @@ import { AuthGuard } from './auth/auth-guard';
     LoadingSpinnerComponent,
     AlertComponent,
     PlaceholderDirective,
-      // AuthGuard
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    StoreModule.forRoot({
+      shoppingList: shoppingListReducer
+    }),
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [ShoppingListService, RecipeService, {
+  providers: [RecipeService, {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptorService,
     multi: true
