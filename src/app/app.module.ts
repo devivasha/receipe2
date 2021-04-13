@@ -23,7 +23,11 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { AlertComponent } from './shared/alert/alert.component';
 import { PlaceholderDirective } from './shared/placeholder/placeholder.component';
 import { AuthGuard } from './auth/auth-guard';
-import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
+import  * as fromApp from './store/app.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './auth/store/auth.effects';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,12 +49,12 @@ import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer
   imports: [
     BrowserModule,
     FormsModule,
-    StoreModule.forRoot({
-      shoppingList: shoppingListReducer
-    }),
+    StoreModule.forRoot(fromApp.appReducer),
+    EffectsModule.forRoot([AuthEffects]),
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [RecipeService, {
     provide: HTTP_INTERCEPTORS,
