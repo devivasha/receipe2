@@ -7,13 +7,15 @@ export const CLEAR_ERROR = 'CLEAR_ERROR'
 export const AUTO_LOGIN = 'AUTO_LOGIN'
 export const LOGOUT = 'LOGOUT';
 
- export class AuthenticateSuccess implements Action {
+
+  export class AuthenticateSuccess implements Action {
   readonly type = AUTHENTICATE_SUCCESS;
   constructor(public payload: {
     email: string;
     userId: string;
     token: string;
     expirationDate: Date;
+    redirect: boolean;
   }) {}
 }
 
